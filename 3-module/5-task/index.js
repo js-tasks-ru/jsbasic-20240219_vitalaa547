@@ -15,5 +15,10 @@ function getMinMax(str) {
     return 0;
   })
 
-  
+  let lastElementIndex = nums.length - 1; // Индекс последнего элемента на единицу меньше, чем длина массива
+
+  let max = nums[lastElementIndex];
+  let min = nums[0];
+
+  return { min, max };
 }
