@@ -1,19 +1,19 @@
 function getMinMax(str) {
   // ваш код...
-  
-    const numbers = inputString.match(/-?\d+(\.\d+)?/g) || []; // Извлекаем числа из строки
-    const parsedNumbers = numbers.map(Number); // Преобразуем строки в числа
-  
-    if (parsedNumbers.length === 0) {
-      return { min: null, max: null }; // Если нет чисел, возвращаем null
-    }
-  
-    const min = Math.min(...parsedNumbers); // Находим минимальное число
-    const max = Math.max(...parsedNumbers); // Находим максимальное число
-  
-    return { min, max };
-  }
-  
-  
-  
+  let strings = str.split(' ');
 
+  let nums = strings
+    .filter((value) => isFinite(value)) // Отфильтровывает не числовые значения
+    .map((value) => +value) // Преобразовывает элементы к числовому типу ("-38" => -38)
+
+  // Сортирует массив по возрастанию, чтобы первый элемент был минимальный, а последний - максимальный.
+  nums.sort((a, b) => {
+    if (a > b) { return 1; }
+
+    if (a < b) { return -1; }
+
+    return 0;
+  })
+
+  
+}
