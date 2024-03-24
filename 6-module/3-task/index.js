@@ -95,6 +95,4 @@ export default class Carousel {
     } else {
       this.sub('arrow_left').style.display = '';
     }
-  }
-
-}
+  }}
