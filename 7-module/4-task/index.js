@@ -15,7 +15,7 @@ export default class StepSlider {
     ;`
     this.stepsContainer = this.elem.querySelector('.slider__steps');
     
-this.stepsContainer.children[this.value].classList.add('slider__step-active');
+    this.stepsContainer.children[this.value].classList.add('slider__step-active');
 }
 
 addClickEvent() {
@@ -41,26 +41,36 @@ thumb.addEventListener('pointerdown', (event) => {
 });
 }
 onPointerMove = (event) => {
-  let left = event.clientX - this.elem.getBoundingClientRect().left;
-  let leftRelative = left / this.elem.offsetWidth;
+  // let left = event.clientX - this.elem.getBoundingClientRect().left;
+  // let leftRelative = left / this.elem.offsetWidth;
   let segments = this.steps - 1;
-  let approximateValue = leftRelative * segments;
-  let value = Math.round(approximateValue);
-  let valuePercents = (value / segments) * 100;
+  // let approximateValue = leftRelative * segments;
+
+
+  let newLeft = (event.clientX - this.elem.getBoundingClientRect().left) / this.elem.offsetWidth;
+  if (newLeft < 0) { newLeft = 0; }
+  if (newLeft > 1) { newLeft = 1; }
+
+  let value = Math.round(segments * newLeft);
+  this.value = value;
+
+  let valuePercents = newLeft * 100;
+
   this.elem.querySelector('.slider__thumb').style.left = `${valuePercents}%`;
-this.elem.querySelector('.slider__progress').style.width = `${valuePercents}%`;
+  this.elem.querySelector('.slider__progress').style.width = `${valuePercents}%`;
 
-this.stepsContainer.querySelector('.slider__step-active').classList.remove('slider__step-active');
-this.stepsContainer.children[value].classList.add('slider__step-active');
+  this.stepsContainer.querySelector('.slider__step-active').classList.remove('slider__step-active');
 
-this.value = value;
-this.elem.querySelector('.slider__value').textContent = value;
 
-let customEvent = new CustomEvent('slider-change', {
-  detail: value,
-  bubbles: true
-});
-this.elem.dispatchEvent(customEvent);
+  this.stepsContainer.children[value].classList.add('slider__step-active');
+
+  this.elem.querySelector('.slider__value').textContent = value;
+
+  let customEvent = new CustomEvent('slider-change', {
+    detail: value,
+    bubbles: true
+  });
+  this.elem.dispatchEvent(customEvent);
 }
 updateSlider(event) {
   const left = event.clientX - this.elem.getBoundingClientRect().left;
@@ -73,7 +83,8 @@ updateSlider(event) {
 this.elem.querySelector('.slider__progress').style.width = `${valuePercents}%`;
 
 this.stepsContainer.querySelector('.slider__step-active').classList.remove('slider__step-active');
-this.stepsContainer.children[value].classList.add('slider__step-active');
+
+if (this.stepsContainer.children[value]) this.stepsContainer.children[value].classList.add('slider__step-active');
 
 this.value = value;
 this.elem.querySelector('.slider__value').textContent = value;
@@ -84,4 +95,4 @@ let customEvent = new CustomEvent('slider-change', {
 });
 this.elem.dispatchEvent(customEvent);
 }
-}    
+}   
