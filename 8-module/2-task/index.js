@@ -7,7 +7,7 @@ export default class ProductGrid {
     this.filters = {};
     
       
-        this.products = products;
+       
         this.filteredProducts = products;
         
         this.render();
@@ -16,6 +16,7 @@ export default class ProductGrid {
       render() {
         this.elem = document.createElement('div');
         this.elem.classList.add('products-grid');
+        this.elem = createElement('<div class="products-grid"><div class="products-grid__inner"></div></div>');
         this.elem.innerHTML = `
           <div class="products-grid__inner">
             <!--ВОТ ТУТ БУДУТ КАРТОЧКИ ТОВАРОВ-->
@@ -29,20 +30,21 @@ export default class ProductGrid {
       }
     
       updateFilter(filters) {
+        Object.assign(this.filters, filters);
         this.filteredProducts = this.products.filter(product => {
-          if (filters.noNuts && product.nuts === true) {
+          if (this.filters.noNuts && product.nuts) {
             return false;
           }
           
-          if (filters.vegetarianOnly && product.vegetarian !== true) {
+          if (this.filters.vegeterianOnly && !product.vegeterian) {
             return false;
           }
           
-          if (filters.maxSpiciness !== undefined && filters.maxSpiciness < product.spiciness) {
+          if (this.filters.maxSpiciness !== undefined && product.spiciness > this.filters.maxSpiciness) {
             return false;
           }
           
-          if (filters.category !== undefined && filters.category !== '' && filters.category !== product.category) {
+          if (this.filters.category && product.category != this.filters.category) {
             return false;
           }
           
@@ -57,6 +59,6 @@ export default class ProductGrid {
       }
     }
     
-    let productGrid = new ProductGrid(products);
+   
     
   
