@@ -13,32 +13,29 @@ export default class Cart {
   }
 
   addProduct(product) {
-    let cartItem = this.cartItems.find(
-      item => item.product.id == product.id
-    );
-    if (!cartItem) {
-      cartItem = {
-        product,
-        count: 1
-      };
-      this.cartItems.push(cartItem);
-    } else {
-      cartItem.count++;
-    }
+    if (!product) {
+      return;  // ваш код
+  } let existingItem = this.cartItems.find(item => item.product.id === product.id);
 
-    this.onProductUpdate(cartItem);
+  if (existingItem) {
+    existingItem.count++;
+  } else {
+    this.cartItems.push({ product: product, count: 1 });
   }
 
-  updateProductCount(productId, amount) {
-    let cartItem = this.cartItems.find(item => item.product.id == productId);
-    cartItem.count += amount;
+  this.onProductUpdate(existingItem || { product, count: 1 });
+{ let itemToUpdate = this.cartItems.find(item => item.product.id === productId);
 
-    if (cartItem.count == 0) {
-      this.cartItems.splice(this.cartItems.indexOf(cartItem), 1);
-    }
+if (itemToUpdate) {
+  itemToUpdate.count += amount;
 
-    this.onProductUpdate(cartItem);
+  if (itemToUpdate.count <= 0) {
+    this.cartItems = this.cartItems.filter(item => item.product.id !== productId);
   }
+
+  this.onProductUpdate(itemToUpdate);
+} // ваш код
+}}
 
   isEmpty() {
     return this.cartItems.length === 0;
@@ -49,10 +46,8 @@ export default class Cart {
   }
 
   getTotalPrice() {
-    return this.cartItems.reduce(
-      (sum, item) => sum + item.product.price * item.count,
-      0
-    );
+  
+    return this.cartItems.reduce((totalPrice, item) => totalPrice + (item.product.price * item.count), 0);// ваш код
   }
 
   renderProduct(product, count) {
