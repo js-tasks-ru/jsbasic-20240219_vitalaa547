@@ -5,9 +5,7 @@ export default class ProductGrid {
   constructor(products) {
     this.products = products;
     this.filters = {};
-    
-      
-       
+  
         this.filteredProducts = products;
         
         this.render();
