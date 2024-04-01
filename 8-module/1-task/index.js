@@ -23,10 +23,10 @@ export default class CartIcon {
 
   this.updatePosition();
   
-  // this.elem.classList.add('shake');
-  // this.elem.addEventListener('transitionend', () => {
-  //   this.elem.classList.remove('shake');
-  // }, {once: true});
+  this.elem.classList.add('shake');
+  this.elem.addEventListener('transitionend', () => {
+    this.elem.classList.remove('shake');
+  }, {once: true});
 
   } else {
     this.elem.classList.remove('cart-icon_visible');
@@ -39,12 +39,6 @@ addEventListeners() {
 }
 
 updatePosition() {
-  if (!this.elem.offsetHeight) {return;} // #!
-
-  if (!this.initialTopCoord) { // Высчитывается только 1
-      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
-  }
-
   let isMobile = document.documentElement.clientWidth <= 767;
   let container = document.querySelector('.container');
   
@@ -61,8 +55,13 @@ updatePosition() {
   let cartIconRect = this.elem.getBoundingClientRect();
   let containerRect = container.getBoundingClientRect();
   
-  // let initialTopCoord = cartIconRect.top + window.pageYOffset;
+
+  if (!this.initialTopCoord) { // определяется только 1 раз
+    this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
+  }
+
   let initialTopCoord = this.initialTopCoord;
+
   
   if (window.pageYOffset > initialTopCoord || containerRect.right + 20 < cartIconRect.right) {
     let leftIndent = Math.min(
@@ -74,10 +73,9 @@ updatePosition() {
         position: 'fixed',
         top: '50px',
         zIndex: 1000,
-        // right: '10px',
+        right: '10px',
         left: leftIndent
     });
-
   } else {
     Object.assign(this.elem.style, {
         position: '',
