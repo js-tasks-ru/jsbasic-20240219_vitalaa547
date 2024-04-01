@@ -170,7 +170,6 @@ export default class Cart {
       this.modalBody = null;
     });
 
-  
 
     this.modal.open();}
   
@@ -247,8 +246,10 @@ export default class Cart {
     this.modalBody.querySelector(`.cart-buttons__info-price`).innerHTML = '€' + this.getTotalPrice().toFixed(2);
   }
 
+
  
   async onSubmit(event) {
+
     event.preventDefault();
 
     this.modalBody
@@ -257,7 +258,11 @@ export default class Cart {
     let form = this.modalBody.querySelector('.cart-form');
     let userData = new FormData(form);
 
+
+     fetch('https://httpbin.org/post', { method: 'POST', body: userData });
+
     await fetch('https://httpbin.org/post', { method: 'POST', body: userData });
+
 
     this.modal.setTitle("Success!");
     this.modalBody
@@ -267,7 +272,9 @@ export default class Cart {
     this.cartItems = [];
     this.cartIcon.update(this);
 
+
     this.modalBody.innerHTML = `
+
       <div class="modal__body-inner">
         <p>
           Order successful! Your order is being cooked :) <br>
@@ -275,9 +282,10 @@ export default class Cart {
           <img src="/assets/images/delivery.gif">
         </p>
       </div>
-      `;
+`
+
+
   };
-  
 
   addEventListeners() {
     this.cartIcon.elem.onclick = () => this.renderModal();
