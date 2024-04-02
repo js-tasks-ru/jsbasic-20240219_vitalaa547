@@ -55,7 +55,13 @@ updatePosition() {
   let cartIconRect = this.elem.getBoundingClientRect();
   let containerRect = container.getBoundingClientRect();
   
-  let initialTopCoord = cartIconRect.top + window.pageYOffset;
+
+  if (!this.initialTopCoord) { // определяется только 1 раз
+    this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
+  }
+
+  let initialTopCoord = this.initialTopCoord;
+
   
   if (window.pageYOffset > initialTopCoord || containerRect.right + 20 < cartIconRect.right) {
     let leftIndent = Math.min(
