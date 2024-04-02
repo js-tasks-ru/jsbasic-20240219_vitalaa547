@@ -1,4 +1,5 @@
 
+
 export default function promiseClick(button) {
   return new Promise((resolve) => {
     button.addEventListener('click', (event) => {
@@ -10,5 +11,4 @@ export default function promiseClick(button) {
 const button = document.querySelector('button');
 
 
-  // ваш код...
-
+ 
